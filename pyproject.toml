@@ -1,0 +1,35 @@
+[project]
+name = "samples"
+version = "0.1.0"
+description = "Sample data sets and data objects (data contracts, data products)"
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+authors = [
+		{name = "Denis Arnaud", email = "denis.arnaud_dc@m4x.org"}
+]
+urls = {repository = "https://github.com/monmaya/samples"}
+dependencies = [
+  "cloudpathlib[s3]",
+  "duckdb",
+  "faker",
+  "pandas",
+  "pyarrow",
+  "sqlmesh",
+  "unitycatalog-client"
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv.workspace]
+members = [
+    "sqlmesh",
+]
+
+[project.scripts]
+samples = "main:main"
+
+#[tool.hatch.build.targets.wheel]
+#packages = ["scripts"]
+
