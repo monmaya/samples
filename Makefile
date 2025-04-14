@@ -2,6 +2,8 @@
 # File: https://github.com/monmaya/samples/blob/main/Makefile
 #
 
+TODAY_DATE := $(shell date '+%Y-%m-%d')
+
 clean-cache: ## Clean the SQLMesh cache directory
 	rm -rf .cache
 
@@ -9,7 +11,7 @@ clean-logs: ## Clean the SQLMesh logs
 	rm -rf logs
 
 clean-wh: ## Clean the SQLMesh warehouse (DuckDB)
-	rm -f db.db
+	rm -f db.db db.db.wal
 
 clean-pg: ## Clean the SQLMesh state in the local PostgreSQL database
 	@tools/clean-pg-state.sh
@@ -18,7 +20,7 @@ clean: clean-cache clean-logs clean-wh clean-pg ## Clean potential previous stat
 
 install-dev: ## Install Python dependencies
 	python -mpip install -U pip
-	python -mpip install -U duckdb "sqlmesh[postgres,web]"
+	python -mpip install -U duckdb "sqlmesh[postgres,web]" "datacontract-cli[all]"
 
 init: ## Initialize the project with PostgreSQL to store the state
 	cp -f config.yaml.sample config.yaml
@@ -62,3 +64,15 @@ diff: ## Differences between dev and prod
 ui: ## Launch the UI
 	sqlmesh ui --port 10000
 
+export-db: ## Export the database as DDL scripts and CSV data files
+	rm -rf data/snapshots/staging data/snapshots/$(TODAY_DATE)
+	@mkdir -p data/snapshots/staging
+	duckdb db.db "export database 'data/snapshots/staging'"
+	mv data/snapshots/staging data/snapshots/$(TODAY_DATE)
+	cd data/snapshots && rm -f current && ln -s $(TODAY_DATE) current
+	@echo "Generated DDL/schema: data/snapshots/current/schema.sql"
+
+contract-transpile-ddb2pg: ## Transpile DDL/schema from DuckDB to PostgreSQL
+	tools/ddl-transpile-to-postgres.py \
+	--schema-duckdb-filepath data/schemas/duckdb/table_order_event.sql \
+	--schema-postgres-filepath data/schemas/postgres/table_order_event.sql

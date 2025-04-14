@@ -1,0 +1,3 @@
+COPY sqlmesh__sqlmesh.sqlmesh__full_order_event_model__807235047 FROM 'data/snapshots/staging/sqlmesh__sqlmesh_sqlmesh__full_order_event_model___________.csv' (FORMAT 'csv', quote '"', delimiter ',', header 1);
+COPY sqlmesh__sqlmesh.sqlmesh__incremental_order_event_model__3451312283 FROM 'data/snapshots/staging/sqlmesh__sqlmesh_sqlmesh__incremental_order_event_model____________.csv' (FORMAT 'csv', quote '"', delimiter ',', header 1);
+COPY sqlmesh__sqlmesh.sqlmesh__seed_order_event_model__2482194875 FROM 'data/snapshots/staging/sqlmesh__sqlmesh_sqlmesh__seed_order_event_model____________.csv' (FORMAT 'csv', quote '"', delimiter ',', header 1);

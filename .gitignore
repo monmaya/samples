@@ -6,5 +6,6 @@ __pycache__/
 config.yaml
 .cache/
 db.db
+db.db.wal
 /logs/
 

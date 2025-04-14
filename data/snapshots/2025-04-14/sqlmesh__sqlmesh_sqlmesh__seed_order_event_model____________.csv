@@ -1,0 +1,4 @@
+order_id,customer_id,order_event_timestamp,items
+123,456,2025-04-12 14:20:30,"{'product_id': 789, 'quantity': 2, 'price': 19.99}"
+124,457,2025-04-12 15:20:30,"{'product_id': 790, 'quantity': 1, 'price': 29.99}"
+125,457,2025-04-12 15:21:30,"{'product_id': 789, 'quantity': 2, 'price': 19.99}"

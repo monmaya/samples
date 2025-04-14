@@ -1,0 +1,127 @@
+#
+# File: https://github.com/monmaya/samples/blob/main/contracts/odcs/order_event.yml
+#
+# References:
+# * Open Data Contract Standard (ODCS):
+#   * GitHub: https://github.com/bitol-io/open-data-contract-standard
+#   * Reader-friendly:
+#     https://bitol-io.github.io/open-data-contract-standard/latest/
+# * Server section specific to Amazon S3:
+#   https://bitol-io.github.io/open-data-contract-standard/latest/#amazon-s3-server-and-compatible-servers
+#
+apiVersion: v3.0.1 # Standard version
+kind: DataContract
+
+id: daco.collect_turnover_gmv
+name: collect_turnover_gmv
+version: 0.0.1 # Version of that specific data contract
+status: draft
+domain: daco
+dataProduct: gmv-forecast
+tenant: DecathlonDigital
+
+description:
+  purpose: Fact dataset related to Gross Market Value (GMV) / TurnOver (TO)
+  limitations: null
+  usage: Preparation of data for the Machine Learning (ML) prediction models
+  customProperties:
+    contact:
+      email: ce-gmv-forecast@decathlon.net
+      name: CE-GMV-FORECAST
+    owner: DACO GMV Forecast
+  
+tags: ['daco', 'gmv', 'forecast', 'gmv-forecast', 'to']
+
+team:
+  - username: darnau24
+    role: Principal Engineer
+    comment: keeper of the grail
+    dateIn: 2024-10-01
+
+servers:
+  - server: production
+    type: s3
+    description: production s3 bucket
+    environment: prd
+    location: s3://ppd-dct-dlk-gold/forecast/collect_turnover_gmv/
+    endpointUrl: https://eu-west-1.console.aws.amazon.com/s3/buckets/ppd-dct-dlk-gold/forecast/collect_turnover_gmv/
+    format: parquet
+
+schema:
+  - name: collect_turnover_gmv
+    logicalType: object
+    physicalType: table
+    physicalName: collect_turnover_gmv
+    description: Fact dataset related to Gross Market Value (GMV) / TurnOver (TO)
+    authoritativeDefinitions:
+      - url: https://github.com/dktunited/daco-gmv-forecast-pyspark/blob/main/src/daco_gmv_forecast_pyspark/io/schemas/collect_turnover_gmv.py
+        type: PySparkSchema
+    tags: ['daco', 'gmv', 'forecast', 'gmv-forecast', 'turnover', 'to', 'collect']
+    dataGranularityDescription: Aggregation on columns txn_ref_dt, pmt_txn_id
+
+    properties:
+      - name: week_id
+        businessName: week number
+        logicalType: string
+        physicalType: string
+        required: true
+        description: transaction reference week number
+        partitioned: false
+        partitionKeyPosition: -1
+        criticalDataElement: false
+        tags: []
+        classification: public
+        transformSourceObjects: null
+        transformLogic: null
+        transformDescription: null
+        examples:
+          - 202210
+          - 202001
+      - name: but_idr_business_unit
+        businessName: business unit id
+        logicalType: integer
+        physicalType: integer
+        required: false
+        description: business unit id
+        partitioned: false
+        partitionKeyPosition: -1
+        criticalDataElement: false
+        tags: []
+        classification: public
+
+##
+#dpt_idr_department short,
+#day_id date,
+#quarter integer,
+#month integer,
+#weeknum integer,
+#year integer,
+#day integer,
+#but_num_business_unit decimal,
+#cnt_idr_country short,
+#latitude string,
+#longitude string,
+#unv_idr_univers short,
+#dpt_num_department short,
+#dpt_label string,
+#cur_idr_currency string,
+#turnover_bu_dpt decimal,
+#turnover_bu_dpt_digital decimal,
+#exchange_rate double,
+#from_currency string,
+#start_date date,
+#end_date date,
+#id_currency long,
+#day_max date,
+#cnt_country_code string
+##
+
+quality:
+  - type: custom
+    engine: greatExpectations
+    description: The quality may be assessed with Great Expectations
+    implementation: |
+      type: expect_table_row_count_to_be_between # Block
+      kwargs:
+        minValue: 10000          # passed, ai is, to the tool
+        maxValue: 50000          # (Great Expectations here)
