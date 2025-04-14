@@ -1,19 +1,30 @@
 test_example_full_model:
-  model: sqlmesh_example.full_model
+  model: sqlmesh.full_order_event_model
   inputs:
-    sqlmesh_example.incremental_model:
+    sqlmesh.incremental_order_event_model:
       rows:
-      - id: 1
-        item_id: 1
-      - id: 2
-        item_id: 1
-      - id: 3
-        item_id: 2
+      - order_id: 123
+        customer_id: 456
+        items:
+          product_id: 789
+          quantity: 2
+          price: 19.99
+      - order_id: 124
+        customer_id: 457
+        items:
+          product_id: 790
+          quantity: 1
+          price: 29.99
+      - order_id: 125
+        customer_id: 457
+        items:
+          product_id: 789
+          quantity: 2
+          price: 19.99
   outputs:
     query:
       rows:
-      - item_id: 1
+      - customer_id: '457'
         num_orders: 2
-      - item_id: 2
+      - customer_id: '456'
         num_orders: 1
-  

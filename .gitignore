@@ -1,4 +1,10 @@
-#
+# Python
 uv.lock
 __pycache__/
+
+# SQLMesh
+config.yaml
+.cache/
+db.db
+/logs/
 

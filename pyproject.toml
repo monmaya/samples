@@ -13,6 +13,7 @@ dependencies = [
   "duckdb",
   "faker",
   "pandas",
+  "psycopg2",
   "pyarrow",
   "sqlmesh",
   "unitycatalog-client"

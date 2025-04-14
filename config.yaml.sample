@@ -1,0 +1,31 @@
+gateways:
+  local:
+    # * DuckDb is used only as the execution engine (connection)
+    # * PostgreSQL is used to store the state (state_connection)
+    #   * Doc: https://sqlmesh.readthedocs.io/en/stable/guides/configuration/#overrides
+    #   * Doc: https://sqlmesh.readthedocs.io/en/stable/integrations/engines/postgres/#localbuilt-in-scheduler
+    connection:
+      type: duckdb
+      database: db.db
+    state_connection:
+      type: postgres
+      host: localhost
+      port: 5432
+      database: sqlmesh
+      user: sqlmesh
+      password: <sqlmesh-pass>
+      # concurrent_tasks: 4
+      # register_comments: True
+      # pre_ping: True
+      # pretty_sql: False
+      # keepalives_idle: 
+      # connect_timeout: 10
+      # role: 
+      # sslmode: 
+      # application_name: 
+
+default_gateway: local
+
+model_defaults:
+  dialect: duckdb
+  start: 2025-01-01
