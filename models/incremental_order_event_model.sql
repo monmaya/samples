@@ -20,6 +20,7 @@ SELECT
   order_id,
   customer_id,
   order_event_timestamp,
+  -- 'z' as new_column,
   items
 FROM
   sqlmesh.seed_order_event_model
