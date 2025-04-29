@@ -49,12 +49,16 @@ list-tables-dev: ## List the tables in dev
 	sqlmesh fetchdf "use sqlmesh__dev; show tables"
 
 check-data-prod: ## Check the data in prod
+	sqlmesh fetchdf "select * from sqlmesh.seed_data_contract_model"
+	sqlmesh fetchdf "select * from sqlmesh.seed_port_model"
 	sqlmesh fetchdf "select * from sqlmesh.seed_data_product_model"
 	sqlmesh fetchdf "select * from sqlmesh.seed_order_event_model"
 	sqlmesh fetchdf "select * from sqlmesh.incremental_order_event_model"
 	sqlmesh fetchdf "select * from sqlmesh.full_order_event_model"
 
 check-data-dev: ## Check the data in dev
+	sqlmesh fetchdf "select * from sqlmesh__dev.seed_data_contract_model"
+	sqlmesh fetchdf "select * from sqlmesh__dev.seed_port_model"
 	sqlmesh fetchdf "select * from sqlmesh__dev.seed_data_product_model"
 	sqlmesh fetchdf "select * from sqlmesh__dev.seed_order_event_model"
 	sqlmesh fetchdf "select * from sqlmesh__dev.incremental_order_event_model"
