@@ -1,2 +1,2 @@
 id,description, data_product_id, type, created_at_utc, updated_at_utc
-dc0001op1,CDP Sales output port 1,dp0001,out,2025-04-29T07:35:20, 2025-04-29T08:35:20
+dc0001op1,Order events - Output port 1,dp0001,out,2025-04-29T07:35:20, 2025-04-29T08:35:20
